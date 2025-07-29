@@ -1,1 +1,1 @@
-# EduDoc-Sharing-learning-resource
+# This website allows students and teachers to upload documents related to their subjects for those who need to download for reference. The website can also help teachers create their own courses to supplement knowledge for students participating in the course.
