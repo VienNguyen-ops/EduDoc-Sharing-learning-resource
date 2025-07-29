@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # EduDoc - Study Sharing Site
 
 ## Cấu trúc thư mục
@@ -14,3 +15,6 @@
 ## Hướng dẫn
 - Di chuyển các file chức năng vào đúng thư mục như trên để dễ bảo trì, mở rộng.
 - Sửa lại các đường dẫn file include/require cho phù hợp với vị trí mới.
+=======
+# This website allows students and teachers to upload documents related to their subjects for those who need to download for reference. The website can also help teachers create their own courses to supplement knowledge for students participating in the course.
+>>>>>>> 33bac7fb556dba3e82b7ac50e2c5135e0eaa36bc
