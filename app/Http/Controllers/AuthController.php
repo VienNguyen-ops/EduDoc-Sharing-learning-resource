@@ -15,28 +15,35 @@ class AuthController extends Controller
 
     public function loginCheck(Request $request)
     {
-        $username = $request->input('username');
+        $login = $request->input('login');
         $password = $request->input('password');
 
-        // Kiểm tra tài khoản admin mặc định
-        if ($username === 'vien' && $password === '1234') {
+        // Admin mặc định
+        if ($login === 'vien' && $password === '1234') {
             session(['role' => 'admin']);
             return redirect()->route('admin.dashboard');
         }
 
-        // Kiểm tra tài khoản student trong bảng users
-        $user = User::where('name', $username)->first();
-        if ($user && Hash::check($password, $user->password) && $user->role_id) {
-            // Giả sử role_id = 2 là student
-            $role = $user->role_id == 2 ? 'student' : 'other';
-            session(['role' => $role, 'user_id' => $user->id]);
-            if ($role === 'student') {
-                return redirect('/');
+        // Xác định login là email hay tên
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+        $user = User::where($field, $login)->first();
+            if ($user && Hash::check($password, $user->password) && $user->role_id) {
+            // Đặt session chung
+            session(['role' => $user->role_id == 2 ? 'student' : ($user->role_id == 3 ? 'teacher' : 'other'), 'user_id' => $user->id]);
+
+            // Đặt flag cho hiệu ứng
+            if ($user->role_id == 3) { 
+                session(['welcome_type' => true]);
             }
-        }
+
+            return redirect('/');
+            }
 
         return redirect()->route('login')->with('error', 'Sai thông tin đăng nhập!');
     }
+
+    
 
     public function logout()
     {
@@ -64,6 +71,9 @@ class AuthController extends Controller
         $user->role_id = 2; // Mặc định là student
         $user->save();
 
+        session(['is_new_user' => true, 'role' => 'student', 'user_id' => $user->id]);
         return redirect()->route('login')->with('error', 'Đăng ký thành công! Vui lòng đăng nhập.');
     }
+
+    
 }

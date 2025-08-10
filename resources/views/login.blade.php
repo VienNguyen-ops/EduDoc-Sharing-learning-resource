@@ -60,8 +60,8 @@
         @endif
         <form method="POST" action="{{ route('login.check') }}">
             @csrf
-            <label for="username">Tên đăng nhập</label>
-            <input type="text" id="username" name="username" required>
+            <label for="login">Tên hoặc email đăng nhập</label>
+            <input type="text" id="login" name="login" required>
             <label for="password">Mật khẩu</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Đăng nhập</button>

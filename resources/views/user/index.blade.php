@@ -15,13 +15,27 @@
         .btn-edit { background: #3ca23c; color: #fff; }
         .btn-delete { background: #e74c3c; color: #fff; }
         .btn-add { background: #319a31; color: #fff; margin-bottom: 16px; }
+        .form-inline { display: flex; gap: 8px; margin-bottom: 16px; }
+        .form-inline input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+        .form-inline button { padding: 10px 24px; border-radius: 6px; border: none; background: #3ca23c; color: #fff; font-weight: bold; cursor: pointer; }
+
     </style>
 </head>
 <body>
     <div class="container">
         <a href="{{ route('admin.dashboard') }}" class="btn btn-add" style="float:right; margin-bottom:8px;">Quay lại trang admin</a>
         <h2>Danh sách người dùng</h2>
-        <a href="{{ route('user.create') }}" class="btn btn-add">Thêm người dùng mới</a>
+        <!-- Toolbar: nút thêm + tìm kiếm -->
+        <div class="user-management-toolbar" style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <form method="GET" action="{{ route('user.create') }}" class="form-inline">
+            @csrf
+            <button type="submit">Thêm</button>
+        </form>
+            <form method="GET" action="{{ route('users_management') }}" style="display: flex; flex: 2; gap: 8px;">
+                <input type="text" name="search" placeholder="Tìm kiếm tên hoặc email..." value="{{ request('search') }}" style="flex: 2; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
+                <button type="submit" class="btn btn-add">Tìm kiếm</button>
+            </form>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -40,8 +54,8 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name ?? 'Thành viên' }}</td>
                     <td class="actions">
-                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-edit">Sửa</a>
-                        <form method="POST" action="{{ route('users.destroy', $user->id) }}" style="display:inline;">
+                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-edit">Sửa</a>
+                        <form method="POST" action="{{ route('user.destroy', $user->id) }}" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-delete" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</button>

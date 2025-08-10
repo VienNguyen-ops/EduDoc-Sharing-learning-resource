@@ -18,13 +18,38 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::with('role')->findOrFail($id);
-        return view('user.edit', compact('user'));
+        return view('user.edit', compact('users'));
     }
     // Hiển thị form thêm người dùng mới
     public function create()
     {
         return view('user.create');
     }
+
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:users,name',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'role_id' => 'required|exists:role,id'
+        ]);
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_id' => $request->role_id
+        ]);
+        return redirect()->route('users_management');
+    }
+
 
     // Cập nhật thông tin người dùng
     public function update(Request $request, $id)
