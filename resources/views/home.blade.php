@@ -9,15 +9,19 @@
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 </head>
 <body>
-    @if(session('role') === 'teacher')
+    <!-- @if(session('role') === 'teacher' && session('welcome_type', true))
         <div class="welcome-overlay">
             <h2>Xin chào, {{ optional(App\Models\User::find(session('user_id')))->name }} 👋</h2>
         </div>
+        @php
+            session(['welcome_type' => false]);
+            session()->save();
+        @endphp
     @elseif(session('is_new_user'))
         <div class="welcome-overlay">
             <h2>Chào mừng bạn! Bạn là người mới, hãy cùng khám phá nhé 🎉</h2>
         </div>
-    @endif
+    @endif -->
 
     <div class="header">
         <div class="container">            

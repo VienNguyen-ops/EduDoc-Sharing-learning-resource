@@ -35,6 +35,7 @@ class AuthController extends Controller
             // Đặt flag cho hiệu ứng
             if ($user->role_id == 3) { 
                 session(['welcome_type' => true]);
+                session()->save(); // Ensure session is saved immediately
             }
 
             return redirect('/');
@@ -48,7 +49,7 @@ class AuthController extends Controller
     public function logout()
     {
         session()->flush();
-        return redirect()->route('home');
+        return view('logout');
     }
 
     public function showRegister()

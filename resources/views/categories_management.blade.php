@@ -15,7 +15,7 @@
         .btn { padding: 6px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
         .btn-edit { background: #3ca23c; color: #fff; }
         .btn-delete { background: #e74c3c; color: #fff; }
-        .btn-add { background: #319a31; color: #fff; margin-bottom: 16px; }
+        .btn-add {  display: inline-block; margin-bottom: 20px; padding: 10px 20px; background-color: #3ca23c; color: #fff; text-decoration: none; border-radius: 5px; }
         .form-inline { display: flex; gap: 8px; margin-bottom: 16px; }
         .form-inline input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
         .form-inline button { padding: 10px 24px; border-radius: 6px; border: none; background: #3ca23c; color: #fff; font-weight: bold; cursor: pointer; }

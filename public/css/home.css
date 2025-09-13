@@ -17,7 +17,7 @@ body { font-family: 'Roboto', Arial, sans-serif; background: #fff; margin: 0; }
 .doc-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 32px; width: 350px; text-align: center; }
 .doc-card img { width: 100px; height: auto; margin-bottom: 16px; border-radius: 8px; }
 .doc-card a { color: #3ca23c; font-weight: bold; font-size: 1.1rem; text-decoration: none; }
-.menu {display: flex;align-items: center;gap: 24px;}
+.menu {display: flex;align-items: center;gap: 16px;}
 @media (max-width: 600px) {
     .container { width: 98%; }
     .doc-list { flex-direction: column; align-items: center; }

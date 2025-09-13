@@ -10,7 +10,7 @@
         table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
         th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
         th { background: #f8f8f8; }
-        .btn-add { background: #319a31; color: #fff; margin-bottom: 16px; }
+        .btn-add {  display: inline-block; margin-bottom: 20px; padding: 10px 20px; background-color: #3ca23c; color: #fff; text-decoration: none; border-radius: 5px; }
         .btn { padding: 6px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
         .form-inline { display: flex; gap: 8px; margin-bottom: 16px; }
         .form-inline input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }

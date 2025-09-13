@@ -58,3 +58,9 @@ Route::get('/roles-management', function() {
     $roles = \App\Models\Role::all();
     return view('roles_management', compact('roles'));
 })->name('roles_management');
+
+Route::resource('documents', App\Http\Controllers\DocumentController::class);
+Route::get('/manage', function() {
+    $documents = \App\Models\Document::with(['category', 'user'])->get();
+    return view('manage', compact('documents'));
+})->name('manage');
