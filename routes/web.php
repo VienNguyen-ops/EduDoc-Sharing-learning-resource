@@ -35,7 +35,8 @@ Route::get('/admin', function () {
 })->name('admin.dashboard');
 
 Route::get('/', function () {
-    return view('home');
+    $uploads = App\Models\Upload::all(); // Fetch all uploads from the database
+    return view('home', compact('uploads'));
 })->name('home');
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
@@ -59,8 +60,10 @@ Route::get('/roles-management', function() {
     return view('roles_management', compact('roles'));
 })->name('roles_management');
 
-Route::resource('documents', App\Http\Controllers\DocumentController::class);
-Route::get('/manage', function() {
-    $documents = \App\Models\Document::with(['category', 'user'])->get();
-    return view('manage', compact('documents'));
-})->name('manage');
+
+
+Route::resource('uploads', App\Http\Controllers\UploadController::class);
+Route::get('/uploads_management', function() {
+    $uploads = \App\Models\Upload::with(['user', 'category'])->get();
+    return view('uploads_management', compact('uploads'));
+})->name('uploads_management');

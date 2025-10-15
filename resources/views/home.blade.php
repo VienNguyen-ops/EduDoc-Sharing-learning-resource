@@ -43,7 +43,7 @@
                     <div class="user-info">
                         @if(session('role') === 'student' || session('role') === 'teacher')
                             <span style="display:inline-flex; align-items:center; margin-left:24px;">
-                                <img src="https://i.imgur.com/0y0F0y0.png" alt="Profile"
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTlurI7fy8fbvbUSDYRBBBXi6scHFwQQ3xyQ&s" alt="Profile"
                                     style="width:32px;height:32px;border-radius:50%;vertical-align:middle; margin-right: 8px;">
                                 <strong>{{ optional(App\Models\User::find(session('user_id')))->name }}</strong>
                                 <a href="{{ route('logout') }}" class="logout-link">Đăng xuất</a>
@@ -70,12 +70,79 @@
             <p>Nền tảng chia sẻ tài liệu học tập cho sinh viên và giáo viên. Tìm kiếm, tải lên, và chia sẻ tài liệu dễ dàng.</p>
         </div>
         
-        <div class="doc-list">
-            <div class="doc-card">
-                <img src="https://i.imgur.com/0y0F0y0.png" alt="Báo cáo Thực tập">
-                <a href="#">Báo cáo Thực tập</a>
-            </div>
+        <div class="doc-list" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+            @foreach($uploads as $upload)
+                <div class="doc-card" style="background-color: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 250px; text-align: left; position: relative;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        @if($upload->type === 'pdf')
+                            <img src="https://surl.li/eixixz" alt="PDF" style="width: 40px; height: auto;">
+                        @elseif($upload->file_type === 'word')
+                            <img src="https://surl.li/nwiwah" alt="Word" style="width: 40px; height: auto;">
+                        @elseif($upload->file_type === 'ppt')
+                            <img src="https://surl.lu/vheiua" alt="PowerPoint" style="width: 40px; height: auto;">
+                        @else
+                            <img src="https://surl.li/ovblbz" alt="File" style="width: 40px; height: auto;">
+                        @endif
+                        
+                    </div>
+                    <img src="{{ asset('storage/' . $upload->image) }}" alt="{{ $upload->file_name }}" style="width:100%; height:auto; margin-top: 8px; border-radius: 4px;">
+                    <span style="font-weight: bold; color: #333; ">{{ $upload->file_name }}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #999; font-size: 12px;">{{ $upload->page_count ?? 'N/A' }} trang</span>
+                        <a href="{{ asset('storage/' . $upload->file_path) }}" target="_blank" style="text-decoration: none; color: #3ca23c; font-weight: bold;">Xem chi tiết</a>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
+
+    <footer style="background-color: #f9f9f9; padding: 20px 0; border-top: 1px solid #ddd;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between;">
+            <div>
+                <h4>Giới thiệu</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li><a href="#" style="text-decoration: none; color: #333;">Về chúng tôi</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Việc làm</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Quảng cáo</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Chính sách</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li><a href="#" style="text-decoration: none; color: #333;">Thỏa thuận sử dụng</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Chính sách bảo mật</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Chính sách hoàn tiền</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">DMCA</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Hỗ trợ</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li><a href="#" style="text-decoration: none; color: #333;">Hướng dẫn sử dụng</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Đăng ký tài khoản VIP</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Zalo/Tel: 098 765 4321</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Email: demo@edudoc.vn</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Phương thức thanh toán</h4>
+                <ul style="list-style: none; padding: 0; display: flex; gap: 20px; justify-content: center;">
+                    <li><img src="https://surl.li/quslfc" alt="VNPay" style="width: 30px; height: auto;"></li>
+                    <li><img src="https://surl.lt/woqqac" alt="MoMo" style="width: 30px; height: auto;"></li>
+                    <li><img src="https://surl.li/tsbgnc" alt="Visa" style="width: 30px; height: auto;"></li>
+                    <li><img src="https://surl.li/rnjlgy" alt="MasterCard" style="width: 30px; height: auto;"></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Theo dõi chúng tôi</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li><a href="#" style="text-decoration: none; color: #333;">Facebook</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">Youtube</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #333;">TikTok</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

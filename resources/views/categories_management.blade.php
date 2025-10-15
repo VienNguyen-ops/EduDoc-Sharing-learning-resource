@@ -35,7 +35,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    
                     <th>Tên danh mục</th>
                     <th>Hành động</th>
                 </tr>
@@ -43,7 +43,7 @@
             <tbody>
                 @foreach($categories as $category)
                 <tr>
-                    <td>{{ $category->id }}</td>
+                    
                     <td>
                         @if(request('edit') == $category->id)
                         <form method="POST" action="{{ route('categories.update', $category->id) }}" style="display:inline;">

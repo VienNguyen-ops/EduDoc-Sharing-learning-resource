@@ -9,7 +9,7 @@
         h2 { color: #3ca23c; margin-bottom: 24px; }
         label { display: block; margin-bottom: 8px; font-weight: bold; }
         input[type="text"], input[type="email"], input[type="password"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; margin-bottom: 16px; }
-        .btn { padding: 10px 24px; border-radius: 6px; border: none; background: #319a31; color: #fff; font-weight: bold; cursor: pointer; }
+        .btn { display: inline-block; margin-bottom: 20px; padding: 10px 20px; background-color: #3ca23c; color: #fff; text-decoration: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>

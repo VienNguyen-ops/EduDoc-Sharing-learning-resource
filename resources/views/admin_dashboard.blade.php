@@ -43,7 +43,7 @@
         <ul class="menu">
             <li><a href="{{ route('categories_management') }}">Quản lý danh mục</a></li>
             <li><a href="{{ route('users_management') }}">Quản lý người dùng</a></li>
-            <li><a href="{{ route('manage') }}">Quản lý tài liệu</a></li>
+            <li><a href="{{ route('uploads_management') }}">Quản lý tài liệu</a></li>
             <li><a href="{{ route('roles_management') }}">Quản lý phân quyền</a></li>
             <li><a href="#">Quản lý nhận xét</a></li>
         </ul>
