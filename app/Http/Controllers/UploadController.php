@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Upload;
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class UploadController extends Controller
 {
@@ -34,13 +36,19 @@ class UploadController extends Controller
             'category_id' => 'nullable|exists:categories,id',
         ]);
 
-        $fileExtension = $request->file('file_path')->getClientOriginalExtension();
-        $filePath = $request->file('file_path')->store('uploads');
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('img', 'public');
-        } else {
-            $imagePath = null;
-        }
+        $file = $request->file('file_path');
+        $fileExtension = strtoupper($file->getClientOriginalExtension()); // lấy đuôi file, viết hoa
+        $filePath = $file->store('uploads', 'public');
+        $upload = new Upload();
+        $upload->file_name = $file->getClientOriginalName();
+        $upload->file_path = $filePath;
+       
+         
+
+        $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('img', 'public');
+    }
 
         Upload::create([
             'file_name' => $request->input('file_name'),
@@ -84,6 +92,42 @@ class UploadController extends Controller
 
         return redirect()->route('uploads.index')->with('success', 'Upload updated successfully!');
     }
+
+
+    public function download($id)
+{
+    $upload = Upload::findOrFail($id);
+    $filePath = storage_path('app/public/' . $upload->file_path);
+
+    if (!file_exists($filePath)) {
+        abort(404, 'File không tồn tại');
+    }
+
+    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+    $mimeType = match (strtolower($extension)) {
+        'pdf' => 'application/pdf',
+        'doc' => 'application/msword',
+        'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'xls' => 'application/vnd.ms-excel',
+        'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'png' => 'image/png',
+        'jpg', 'jpeg' => 'image/jpeg',
+        'txt' => 'text/plain',
+        default => 'application/octet-stream',
+    };
+
+    // 🔧 Gắn đuôi mở rộng đúng với tên file
+    $downloadName = $upload->file_name;
+    if (!str_ends_with(strtolower($downloadName), '.' . strtolower($extension))) {
+        $downloadName .= '.' . $extension;
+    }
+
+    return response()->download($filePath, $downloadName, [
+        'Content-Type' => $mimeType,
+    ]);
+}
+
+
 
     // Remove the specified upload from storage
     public function destroy(Upload $upload)

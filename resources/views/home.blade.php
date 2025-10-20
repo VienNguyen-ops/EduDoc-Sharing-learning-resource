@@ -57,10 +57,10 @@
                 </div>
             </div>
                 <div style="clear: both;"></div>
-                    <div class="search-bar">
-                        <button class="category-btn"><i class="fa fa-bars"></i> Danh mục</button>
-                        <input type="text" placeholder="Tìm kiếm tài liệu...">
-                        <button>Tìm kiếm</button>
+                    <div class="search-bar" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin: 16px 0;">
+                        <button class="category-btn" style="padding: 8px 16px; background-color: #3ca23c; color: #fff; border: none; border-radius: 4px; cursor: pointer;"><i class="fa fa-bars"></i> Danh mục</button>
+                        <input type="text" placeholder="Tìm kiếm tài liệu..." style="flex: 1; max-width: 600px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        <button style="padding: 8px 16px; background-color: #3ca23c; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Tìm kiếm</button>
                     </div>
             
                
@@ -74,7 +74,7 @@
             @foreach($uploads as $upload)
                 <div class="doc-card" style="background-color: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 250px; text-align: left; position: relative;">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        @if($upload->type === 'pdf')
+                        @if($upload->type === 'PDF')
                             <img src="https://surl.li/eixixz" alt="PDF" style="width: 40px; height: auto;">
                         @elseif($upload->file_type === 'word')
                             <img src="https://surl.li/nwiwah" alt="Word" style="width: 40px; height: auto;">
@@ -89,7 +89,7 @@
                     <span style="font-weight: bold; color: #333; ">{{ $upload->file_name }}</span>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="color: #999; font-size: 12px;">{{ $upload->page_count ?? 'N/A' }} trang</span>
-                        <a href="{{ asset('storage/' . $upload->file_path) }}" target="_blank" style="text-decoration: none; color: #3ca23c; font-weight: bold;">Xem chi tiết</a>
+                        <a href="{{ route('detail', $upload->id) }}" target="_blank" style="text-decoration: none; color: #3ca23c; font-weight: bold;">Xem chi tiết</a>
                     </div>
                 </div>
             @endforeach

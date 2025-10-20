@@ -45,7 +45,7 @@
                     <tr>
                         
                         <td>{{ $upload->file_name }}</td>
-                        <td><a href="{{ asset('storage/app/' . $upload->file_path) }}" target="_blank">Tải xuống</a></td>
+                        <td><a href="{{ route('uploads.download', $upload->id) }}">Tải xuống</a></td>
                         <td>{{ $upload->user->name ?? 'Không rõ' }}</td>
                         <td>{{ $upload->category->name ?? 'Không có chủ đề' }}</td>
                         <td>
@@ -55,7 +55,31 @@
                                 Không có hình ảnh
                             @endif
                         </td>
-                        <td>{{ $upload->type ?? 'Không xác định' }}</td>
+                        
+                            @php
+                            $fileType = 'Không xác định';
+                            if (!empty($upload->type)) {
+                                $mime = strtolower($upload->type);
+                                if (str_contains($mime, 'pdf')) {
+                                    $fileType = 'PDF';
+                                } elseif (str_contains($mime, 'doc') || str_contains($mime, 'msword') || str_contains($mime, 'officedocument.wordprocessingml')) {
+                                    $fileType = 'Word';
+                                } elseif (str_contains($mime, 'xlsx') || str_contains($mime, 'spreadsheet') || str_contains($mime, 'officedocument.spreadsheetml')) {
+                                    $fileType = 'Excel';
+                                } elseif (str_contains($mime, 'pptx') || str_contains($mime, 'presentation')) {
+                                    $fileType = 'PowerPoint';
+                                } elseif (str_contains($mime, 'img') || str_contains($mime, 'jpeg') || str_contains($mime, 'png')) {
+                                    $fileType = 'Hình ảnh';
+                                } else {
+                                    $fileType = strtoupper(pathinfo($upload->file_name, PATHINFO_EXTENSION) ?: 'Không xác định');
+                                }
+                            } else {
+                                $ext = pathinfo($upload->file_name, PATHINFO_EXTENSION);
+                                $fileType = $ext ? strtoupper($ext) : 'Không xác định';
+                            }
+                        @endphp
+                        <td>{{ $fileType }}</td>
+
                         <td class="action-btns">
                             <a href="{{ route('uploads.edit', $upload->id) }}" class="edit-btn">Sửa</a>
                             <form action="{{ route('uploads.destroy', $upload->id) }}" method="POST" style="display:inline;">

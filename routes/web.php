@@ -63,7 +63,18 @@ Route::get('/roles-management', function() {
 
 
 Route::resource('uploads', App\Http\Controllers\UploadController::class);
+Route::get('uploads/download/{id}', [App\Http\Controllers\UploadController::class, 'download'])
+    ->name('uploads.download');
 Route::get('/uploads_management', function() {
     $uploads = \App\Models\Upload::with(['user', 'category'])->get();
     return view('uploads_management', compact('uploads'));
 })->name('uploads_management');
+Route::get('/uploads/{id}/detail', function ($id) {
+    return response('<h1>Detail</h1>', 200);
+})->name('uploads.detail');
+Route::get('/detail/{id}', function ($id) {
+    return view('detail');
+})->name('detail');
+
+
+

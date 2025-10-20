@@ -28,16 +28,31 @@
     <h2>Quản lý người dùng</h2>
     
         <!-- Toolbar: nút thêm + tìm kiếm -->
-        <div class="user-management-toolbar" style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <form method="GET" action="{{ route('user.create') }}" class="form-inline">
-            @csrf
-            <button type="submit" class="btn btn-add">Thêm</button>
-        </form>
-            <form method="GET" action="{{ route('users_management') }}" style="display: flex; flex: 2; gap: 8px;">
-                <input type="text" name="search" placeholder="Tìm kiếm tên hoặc email..." value="{{ request('search') }}" style="flex: 2; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
-                <button type="submit" class="btn btn-add">Tìm kiếm</button>
+        <div class="user-management-toolbar" 
+            style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+
+            <!-- Nút thêm -->
+            <a href="{{ route('user.create') }}" 
+            style="background-color:#3ca23c; color:white; border:none; border-radius:6px; 
+                    padding:10px 20px; text-decoration:none; font-weight:bold;">
+                Thêm
+            </a>
+
+            <!-- Form tìm kiếm -->
+            <form method="GET" action="{{ route('users_management') }}" 
+                style="display: flex; align-items: center; gap: 8px;">
+                <input type="text" name="search" placeholder="Tìm kiếm tên hoặc email..." 
+                    value="{{ request('search') }}"
+                    style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; width: 250px;">
+                <button type="submit" 
+                        style="background-color:#3ca23c; color:white; border:none; border-radius:6px; 
+                            padding:10px 20px; font-weight:bold;">
+                    Tìm kiếm
+                </button>
             </form>
+
         </div>
+
         <!-- Danh sách người dùng -->
         <table>
             <thead>
