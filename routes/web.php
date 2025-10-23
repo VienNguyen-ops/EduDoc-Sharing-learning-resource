@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,12 @@ Route::get('/uploads/{id}/detail', function ($id) {
 Route::get('/detail/{id}', function ($id) {
     return view('detail');
 })->name('detail');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
+Route::post('/profile/update-avatar', [ProfileController::class, 'updateAvatar'])->name('profile.updateAvatar');
+
 
 
 

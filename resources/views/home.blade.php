@@ -28,8 +28,8 @@
             <div class="nav">
                 <span class="logo">EduDoc</span>
                 <div class="menu">
-                    <a href="#">Chăm sóc khách hàng</a>
-                    <a href="#">Về chúng tôi</a>
+                    <!-- <a href="#">Chăm sóc khách hàng</a>
+                    <a href="#">Về chúng tôi</a> -->
 
                     @if(session('role') === 'teacher')
                         <a href="#">➕ Tạo khóa học</a>
@@ -42,10 +42,14 @@
 
                     <div class="user-info">
                         @if(session('role') === 'student' || session('role') === 'teacher')
-                            <span style="display:inline-flex; align-items:center; margin-left:24px;">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTlurI7fy8fbvbUSDYRBBBXi6scHFwQQ3xyQ&s" alt="Profile"
-                                    style="width:32px;height:32px;border-radius:50%;vertical-align:middle; margin-right: 8px;">
-                                <strong>{{ optional(App\Models\User::find(session('user_id')))->name }}</strong>
+                                <span style="display:inline-flex; align-items:center; cursor: pointer;"onclick="window.location.href='{{ route('profile') }}';">
+                                @php
+                                    $currentUser = App\Models\User::find(session('user_id'));
+                                @endphp
+                                <img src="{{ $currentUser && $currentUser->avt ? asset('storage/' . $currentUser->avt) : 'https://via.placeholder.com/32' }}"
+                                    alt="Avatar"
+                                    style="width:32px; height:32px; border-radius:50%; object-fit:cover; vertical-align:middle; margin-right:8px;">
+                                <strong>{{ $currentUser ? $currentUser->name : 'Khách' }}</strong>
                                 <a href="{{ route('logout') }}" class="logout-link">Đăng xuất</a>
                             </span>
                         
@@ -85,7 +89,7 @@
                         @endif
                         
                     </div>
-                    <img src="{{ asset('storage/' . $upload->image) }}" alt="{{ $upload->file_name }}" style="width:100%; height:auto; margin-top: 8px; border-radius: 4px;">
+                    <img src="{{ asset('storage/' . $upload->image) }}" alt="{{ $upload->file_name }}" style="width:100%; height: 180px;; margin-top: 8px; border-radius: 4px;">
                     <span style="font-weight: bold; color: #333; ">{{ $upload->file_name }}</span>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="color: #999; font-size: 12px;">{{ $upload->page_count ?? 'N/A' }} trang</span>
@@ -102,9 +106,9 @@
                 <h4>Giới thiệu</h4>
                 <ul style="list-style: none; padding: 0;">
                     <li><a href="#" style="text-decoration: none; color: #333;">Về chúng tôi</a></li>
-                    <li><a href="#" style="text-decoration: none; color: #333;">Việc làm</a></li>
+                    <li><a href="https://surl.li/upfwel" style="text-decoration: none; color: #333;">Việc làm</a></li>
                     <li><a href="#" style="text-decoration: none; color: #333;">Quảng cáo</a></li>
-                    <li><a href="#" style="text-decoration: none; color: #333;">Liên hệ</a></li>
+                    
                 </ul>
             </div>
             <div>
@@ -121,7 +125,7 @@
                 <ul style="list-style: none; padding: 0;">
                     <li><a href="#" style="text-decoration: none; color: #333;">Hướng dẫn sử dụng</a></li>
                     <li><a href="#" style="text-decoration: none; color: #333;">Đăng ký tài khoản VIP</a></li>
-                    <li><a href="#" style="text-decoration: none; color: #333;">Zalo/Tel: 098 765 4321</a></li>
+                    <li><a href="https://zalo.me/0347086089" style="text-decoration: none; color: #333;">Zalo/Tel: 0347 086 089</a></li>
                     <li><a href="#" style="text-decoration: none; color: #333;">Email: demo@edudoc.vn</a></li>
                 </ul>
             </div>
