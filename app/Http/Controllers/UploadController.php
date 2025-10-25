@@ -37,27 +37,25 @@ class UploadController extends Controller
         ]);
 
         $file = $request->file('file_path');
-        $fileExtension = strtoupper($file->getClientOriginalExtension()); // lấy đuôi file, viết hoa
+        $extension = strtolower($file->getClientOriginalExtension());
         $filePath = $file->store('uploads', 'public');
-        $upload = new Upload();
-        $upload->file_name = $file->getClientOriginalName();
-        $upload->file_path = $filePath;
-       
-         
+
+        $mimeType = $file->getMimeType(); // Lấy MIME thật của file
 
         $imagePath = null;
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('img', 'public');
-    }
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('img', 'public');
+        }
 
         Upload::create([
-            'file_name' => $request->input('file_name'),
+            'file_name' => $file->getClientOriginalName(),
             'file_path' => $filePath,
             'user_id' => $request->input('user_id'),
             'category_id' => $request->input('category_id'),
             'image' => $imagePath,
-            'type' => $fileExtension,
+            'type' => $mimeType, // ✅ lưu MIME thật, ví dụ: application/vnd.openxmlformats-officedocument.wordprocessingml.document
         ]);
+
 
         return redirect()->route('uploads.index')->with('success', 'Upload created successfully!');
     }
@@ -93,6 +91,16 @@ class UploadController extends Controller
         return redirect()->route('uploads.index')->with('success', 'Upload updated successfully!');
     }
 
+    public function updatePageCount(Request $request, $id)
+{
+    $upload = Upload::find($id);
+    if (!$upload) return response()->json(['error' => 'File not found'], 404);
+
+    $upload->page_count = $request->input('page_count');
+    $upload->save();
+
+    return response()->json(['success' => true]);
+}
 
     public function download($id)
 {

@@ -78,12 +78,19 @@
             @foreach($uploads as $upload)
                 <div class="doc-card" style="background-color: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 250px; text-align: left; position: relative;">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        @if($upload->type === 'PDF')
+                        @php
+                        $ext = strtolower(pathinfo($upload->file_name, PATHINFO_EXTENSION) ?? '');
+                        @endphp
+                        @if($ext === 'pdf')
                             <img src="https://surl.li/eixixz" alt="PDF" style="width: 40px; height: auto;">
-                        @elseif($upload->file_type === 'word')
-                            <img src="https://surl.li/nwiwah" alt="Word" style="width: 40px; height: auto;">
-                        @elseif($upload->file_type === 'ppt')
-                            <img src="https://surl.lu/vheiua" alt="PowerPoint" style="width: 40px; height: auto;">
+                        @elseif(in_array($ext, ['doc', 'docx']))
+                            <img src="https://surl.li/fbuyer" alt="Word" style="width: 40px; height: auto;">
+                        @elseif(in_array($ext, ['ppt', 'pptx']))
+                            <img src="https://surl.li/nydtdy" alt="PowerPoint" style="width: 40px; height: auto;">
+                        @elseif(in_array($ext, ['xls', 'xlsx']))
+                            <img src="https://surl.li/bkdejx" alt="Excel" style="width: 40px; height: auto;">
+                        @elseif(in_array($ext, ['jpg', 'jpeg', 'png', 'gif']))
+                            <img src="https://surl.li/ovblbz" alt="Hình ảnh" style="width: 40px; height: auto;">
                         @else
                             <img src="https://surl.li/ovblbz" alt="File" style="width: 40px; height: auto;">
                         @endif
@@ -92,7 +99,7 @@
                     <img src="{{ asset('storage/' . $upload->image) }}" alt="{{ $upload->file_name }}" style="width:100%; height: 180px;; margin-top: 8px; border-radius: 4px;">
                     <span style="font-weight: bold; color: #333; ">{{ $upload->file_name }}</span>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: #999; font-size: 12px;">{{ $upload->page_count ?? 'N/A' }} trang</span>
+                        <span class="page-count" style="color:#999;font-size:12px;">{{ $upload->page_count ?? 'N/A' }} trang</span>
                         <a href="{{ route('detail', $upload->id) }}" target="_blank" style="text-decoration: none; color: #3ca23c; font-weight: bold;">Xem chi tiết</a>
                     </div>
                 </div>

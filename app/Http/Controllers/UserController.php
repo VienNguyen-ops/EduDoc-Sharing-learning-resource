@@ -4,15 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Category;
+
 
 class UserController extends Controller
 {
     // Hiển thị danh sách người dùng
     public function index()
-    {
-        $users = User::with('role')->get();
-        return view('user.index', compact('users'));
-    }
+{
+    $users = User::with('role')->get();
+    $categories = Category::all(); // 🔹 Lấy toàn bộ danh mục
+
+    return view('user.index', compact('users', 'categories'));
+}
+
 
     // Hiển thị form chỉnh sửa người dùng
     public function edit($id)

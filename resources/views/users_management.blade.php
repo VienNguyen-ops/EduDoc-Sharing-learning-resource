@@ -70,8 +70,8 @@
                 <tr>
                     
                     <td>
-                        @if($user->avatar)
-                            <img src="{{ asset('storage/' . $user->avatar) }}" alt="avatar" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+                        @if($user->avt)
+                            <img src="{{ asset('storage/' . $user->avt) }}" alt="avatar" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
                         @else
                             <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}" alt="avatar" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
                         @endif

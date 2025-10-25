@@ -1,57 +1,134 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết tài liệu</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
-    <style>
-        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 32px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
-        h1 { color: #333; text-align: center; margin-bottom: 20px; }
-        .content { margin-top: 20px; }
-        .content h2 { color: #3ca23c; }
-        .content ul { list-style: none; padding: 0; }
-        .content ul li { margin-bottom: 10px; font-size: 16px; color: #555; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết tài liệu | EduDoc</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:sans-serif;background:#f4f5f7;margin:0;color:#333}
+    header{background:#3ca23c;color:#fff;text-align:center;padding:12px 0;font-weight:600;}
+    .container{max-width:1100px;margin:30px auto;display:flex;gap:20px;padding:0 10px}
+    .sidebar,.main{background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+    .sidebar{flex:1; position: sticky; top: 20px; height: fit-content;}
+    .main{flex:3}
+    h1,h2{color:#1b4332;margin-top:0}
+    p,li{line-height:1.5;font-size:15px}
+    ul{padding-left:20px}
+    button{border:none;border-radius:6px;padding:6px 12px;margin:4px;color:#fff;cursor:pointer;font-size:14px}
+    .save{background:#2d6a4f}
+    .like{background:#007bff}
+    .share{background:#f4a261}
+    .report{background:#d62828}
+    footer{text-align:center;color:#777;padding:20px;font-size:14px}
+    @media(max-width:768px){.container{flex-direction:column}}
+    .main canvas{width:100%;max-width:100%;height:auto;display:block;margin-bottom:10px;border:1px solid #ddd;border-radius:6px}
+    .breadcrumb{font-size:13px;color:#999;margin-bottom:10px}.breadcrumb a{color:#3b82f6;text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Chi tiết tài liệu</h1>
-        <div class="content">
-            <h2>Nội dung môn học</h2>
-            <ul>
-                <li>1. Tổng quan về tư duy phân tích</li>
-                <li>2. Nhận dạng các lập luận</li>
-                <li>3. Các khái niệm logic cơ bản</li>
-                <li>4. Ngôn ngữ</li>
-                <li>5. Ngụy biện phi logic</li>
-                <li>6. Ngụy biện thiếu minh chứng</li>
-                <li>7. Phân tích và đánh giá lập luận</li>
-                <li>8. Suy luận quy nạp</li>
-                <li>9. Ứng dụng tư duy phân tích trong giải quyết vấn đề</li>
-            </ul>
-        </div>
-    </div>
-    <div style="display: flex; gap: 16px; align-items: flex-start;">
-        <!-- Left Section -->
-        <div style="flex: 1; max-width: 300px; background-color: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            <h2 style="font-size: 18px; color: #333;">Bài giảng Tư duy phân tích</h2>
-            <p style="font-size: 14px; color: #555;">Bài giảng Tư duy phân tích tổng quan về: khái niệm, lợi ích (học tập, công việc, cuộc sống), rào cản (thiếu thông tin, định kiến) và cách vượt qua (tự nhận thức).</p>
-            <p style="font-size: 14px; color: #555;">Chủ đề: <strong>Kỹ năng thế kỷ 21</strong></p>
-            <div style="display: flex; gap: 8px; justify-content: center;">
-                <button style="padding: 8px 16px; background-color: #3ca23c; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Save</button>
-                <button style="padding: 8px 16px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Like</button>
-                <button style="padding: 8px 16px; background-color: #ffc107; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Share</button>
-                <button style="padding: 8px 16px; background-color: #dc3545; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Report</button>
-            </div>
-        </div>
 
-        <!-- Right Section -->
-        <div style="flex: 3; background-color: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            <!-- ...existing content... -->
-        </div>
+<header>EduDoc - Chi tiết tài liệu</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="breadcrumb">
+    <a href="{{ route('home') }}">Trang chủ</a> »
+    <a href="{{ route('categories.show', $file->category->id ?? '') }}">
+        {{ $file->category->name ?? 'Danh mục' }}
+    </a> »
+    <span>Led 7 đoạn</span>
+</div>
+    <h2>Bài giảng Tư duy phân tích</h2>
+    <p>Tổng quan: khái niệm, lợi ích, rào cản và cách vượt qua trong tư duy phân tích.</p>
+    <p>Chủ đề: <strong>Kỹ năng thế kỷ 21</strong></p>
+    <div>
+      <button class="save"><i class="fa-solid fa-bookmark"></i> Save</button>
+      <button class="like"><i class="fa-solid fa-thumbs-up"></i> Like</button>
+      <button class="share"><i class="fa-solid fa-share"></i> Share</button>
+      <button class="report"><i class="fa-solid fa-flag"></i> Report</button>
     </div>
+    <p style="margin-top:10px;color:#777;font-size:13px;">
+      <span class="page-count">{{ $file->page_count ?? 'N/A' }} trang</span>
+    </p>
+  </aside>
+
+  <main class="main">
+    <h1>Chi tiết tài liệu</h1>
+    @php
+        $fileUrl = asset('storage/'.$file->file_path);
+        $ext = strtolower(pathinfo($file->file_path, PATHINFO_EXTENSION));
+    @endphp
+    @if($ext === 'pdf')
+        {{-- --- PDF PREVIEW --- --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+        <script>
+            const url = "{{ $fileUrl }}";
+            const pdfContainer = document.querySelector('.main');
+
+            pdfjsLib.getDocument(url).promise.then(pdf => {
+                const pageCount = pdf.numPages;
+                document.querySelector('.page-count').innerText = `${pageCount} trang`;
+
+                // Gửi số trang lên server
+                fetch(`/update-page-count/{{ $file->id }}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ page_count: pageCount })
+                });
+
+                // Render từng trang PDF
+                for (let i = 1; i <= pdf.numPages - 3; i++) {
+                    pdf.getPage(i).then(page => {
+                        const scale = 1.2;
+                        const viewport = page.getViewport({ scale });
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        pdfContainer.appendChild(canvas);
+                        const renderContext = { canvasContext: context, viewport: viewport };
+                        page.render(renderContext);
+                    });
+                }
+            }).catch(error => {
+                pdfContainer.innerHTML = '<p>Không thể tải PDF.</p>';
+                console.error(error);
+            });
+        </script>
+    @elseif(in_array($ext, ['doc', 'docx', 'ppt', 'pptx']))
+        {{-- --- WORD / POWERPOINT PREVIEW --- --}}
+        <div style="text-align:center;">
+            <iframe 
+                src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($fileUrl) }}"
+                width="100%"
+                height="800px"
+                frameborder="0">
+            </iframe>
+        </div>
+    @elseif(in_array($ext, ['xls', 'xlsx']))
+        {{-- --- EXCEL PREVIEW --- --}}
+        <div style="text-align:center;">
+            <iframe 
+                src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($fileUrl) }}"
+                width="100%"
+                height="800px"
+                frameborder="0">
+            </iframe>
+        </div>
+    @else
+        {{-- --- KHÔNG HỖ TRỢ --- --}}
+        <p>Không hỗ trợ xem trước loại file này. 
+            <a href="{{ $fileUrl }}" download>Tải xuống</a>
+        </p>
+    @endif
+
+  </main>
+</div>
+
+<footer>© 2025 EduDoc. All rights reserved.</footer>
 </body>
 </html>

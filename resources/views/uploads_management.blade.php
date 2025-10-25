@@ -54,32 +54,24 @@
                             @else
                                 Không có hình ảnh
                             @endif
-                        </td>
-                        
-                            @php
-                            $fileType = 'Không xác định';
-                            if (!empty($upload->type)) {
-                                $mime = strtolower($upload->type);
-                                if (str_contains($mime, 'pdf')) {
-                                    $fileType = 'PDF';
-                                } elseif (str_contains($mime, 'doc') || str_contains($mime, 'msword') || str_contains($mime, 'officedocument.wordprocessingml')) {
-                                    $fileType = 'Word';
-                                } elseif (str_contains($mime, 'xlsx') || str_contains($mime, 'spreadsheet') || str_contains($mime, 'officedocument.spreadsheetml')) {
-                                    $fileType = 'Excel';
-                                } elseif (str_contains($mime, 'pptx') || str_contains($mime, 'presentation')) {
-                                    $fileType = 'PowerPoint';
-                                } elseif (str_contains($mime, 'img') || str_contains($mime, 'jpeg') || str_contains($mime, 'png')) {
-                                    $fileType = 'Hình ảnh';
-                                } else {
-                                    $fileType = strtoupper(pathinfo($upload->file_name, PATHINFO_EXTENSION) ?: 'Không xác định');
-                                }
-                            } else {
-                                $ext = pathinfo($upload->file_name, PATHINFO_EXTENSION);
-                                $fileType = $ext ? strtoupper($ext) : 'Không xác định';
-                            }
+                        </td>                       
+                        @php
+                        $mime = strtolower($upload->type ?? '');
+                        if (str_contains($mime, 'word')) {
+                            $fileType = 'Word';
+                        } elseif (str_contains($mime, 'excel') || str_contains($mime, 'spreadsheet')) {
+                            $fileType = 'Excel';
+                        } elseif (str_contains($mime, 'powerpoint') || str_contains($mime, 'presentation')) {
+                            $fileType = 'PowerPoint';
+                        } elseif (str_contains($mime, 'pdf')) {
+                            $fileType = 'PDF';
+                        } elseif (str_contains($mime, 'image')) {
+                            $fileType = 'Hình ảnh';
+                        } else {
+                            $fileType = strtoupper(pathinfo($upload->file_name, PATHINFO_EXTENSION) ?: 'Không xác định');
+                        }
                         @endphp
                         <td>{{ $fileType }}</td>
-
                         <td class="action-btns">
                             <a href="{{ route('uploads.edit', $upload->id) }}" class="edit-btn">Sửa</a>
                             <form action="{{ route('uploads.destroy', $upload->id) }}" method="POST" style="display:inline;">

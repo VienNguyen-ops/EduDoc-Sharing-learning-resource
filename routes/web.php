@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,14 +74,21 @@ Route::get('/uploads_management', function() {
 Route::get('/uploads/{id}/detail', function ($id) {
     return response('<h1>Detail</h1>', 200);
 })->name('uploads.detail');
+use App\Models\Upload;
+
 Route::get('/detail/{id}', function ($id) {
-    return view('detail');
+    $file = Upload::findOrFail($id);
+    return view('detail', compact('file'));
 })->name('detail');
+
+
 
 Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
 Route::post('/profile/update-avatar', [ProfileController::class, 'updateAvatar'])->name('profile.updateAvatar');
+Route::post('/update-page-count/{id}', [App\Http\Controllers\UploadController::class, 'updatePageCount']);
+
 
 
 
