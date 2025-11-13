@@ -6,7 +6,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UploadController;
-
+use PhpOffice\PhpWord\IOFactory;
+use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\AdminTeacherController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,7 +80,7 @@ use App\Models\Upload;
 
 Route::get('/detail/{id}', function ($id) {
     $file = Upload::findOrFail($id);
-    return view('detail', compact('file'));
+  return view('detail', compact('file'));
 })->name('detail');
 
 
@@ -88,6 +90,20 @@ Route::get('/profile', function () {
 })->name('profile');
 Route::post('/profile/update-avatar', [ProfileController::class, 'updateAvatar'])->name('profile.updateAvatar');
 Route::post('/update-page-count/{id}', [App\Http\Controllers\UploadController::class, 'updatePageCount']);
+
+
+
+Route::get('/survey', [SurveyController::class, 'showSurvey'])->name('survey.show');
+Route::post('/survey', [SurveyController::class, 'submitSurvey'])->name('survey.submit');
+Route::get('/approval-status', [SurveyController::class, 'checkApprovalStatus'])->name('approval.status');
+
+
+
+Route::get('/admin/pending-teachers', [AdminTeacherController::class, 'index'])
+    ->name('admin.pending-teachers');
+
+Route::post('/admin/verify-teacher/{id}', [AdminTeacherController::class, 'verify'])
+    ->name('admin.verify-teacher');
 
 
 

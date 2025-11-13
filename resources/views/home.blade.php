@@ -23,6 +23,7 @@
         </div>
     @endif -->
 
+
     <div class="header">
         <div class="container">            
             <div class="nav">
@@ -30,6 +31,11 @@
                 <div class="menu">
                     <!-- <a href="#">Chăm sóc khách hàng</a>
                     <a href="#">Về chúng tôi</a> -->
+                    
+                    <a href="{{ session()->has('user_id') ? route('uploads.create') : route('login') }}"
+                    style="color: #3ca23c; text-decoration: none; font-weight: bold;">
+                    Upload
+                    </a>
 
                     @if(session('role') === 'teacher')
                         <a href="#">➕ Tạo khóa học</a>

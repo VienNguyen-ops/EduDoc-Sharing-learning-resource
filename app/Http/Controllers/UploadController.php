@@ -92,48 +92,48 @@ class UploadController extends Controller
     }
 
     public function updatePageCount(Request $request, $id)
-{
-    $upload = Upload::find($id);
-    if (!$upload) return response()->json(['error' => 'File not found'], 404);
+    {
+        $upload = Upload::find($id);
+        if (!$upload) return response()->json(['error' => 'File not found'], 404);
 
-    $upload->page_count = $request->input('page_count');
-    $upload->save();
+        $upload->page_count = $request->input('page_count');
+        $upload->save();
 
-    return response()->json(['success' => true]);
-}
+        return response()->json(['success' => true]);
+    }
 
     public function download($id)
-{
-    $upload = Upload::findOrFail($id);
-    $filePath = storage_path('app/public/' . $upload->file_path);
+    {
+        $upload = Upload::findOrFail($id);
+        $filePath = storage_path('app/public/' . $upload->file_path);
 
-    if (!file_exists($filePath)) {
-        abort(404, 'File không tồn tại');
+        if (!file_exists($filePath)) {
+            abort(404, 'File không tồn tại');
+        }
+
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        $mimeType = match (strtolower($extension)) {
+            'pdf' => 'application/pdf',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls' => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'png' => 'image/png',
+            'jpg', 'jpeg' => 'image/jpeg',
+            'txt' => 'text/plain',
+            default => 'application/octet-stream',
+        };
+
+        // 🔧 Gắn đuôi mở rộng đúng với tên file
+        $downloadName = $upload->file_name;
+        if (!str_ends_with(strtolower($downloadName), '.' . strtolower($extension))) {
+            $downloadName .= '.' . $extension;
+        }
+
+        return response()->download($filePath, $downloadName, [
+            'Content-Type' => $mimeType,
+        ]);
     }
-
-    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-    $mimeType = match (strtolower($extension)) {
-        'pdf' => 'application/pdf',
-        'doc' => 'application/msword',
-        'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'xls' => 'application/vnd.ms-excel',
-        'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'png' => 'image/png',
-        'jpg', 'jpeg' => 'image/jpeg',
-        'txt' => 'text/plain',
-        default => 'application/octet-stream',
-    };
-
-    // 🔧 Gắn đuôi mở rộng đúng với tên file
-    $downloadName = $upload->file_name;
-    if (!str_ends_with(strtolower($downloadName), '.' . strtolower($extension))) {
-        $downloadName .= '.' . $extension;
-    }
-
-    return response()->download($filePath, $downloadName, [
-        'Content-Type' => $mimeType,
-    ]);
-}
 
 
 

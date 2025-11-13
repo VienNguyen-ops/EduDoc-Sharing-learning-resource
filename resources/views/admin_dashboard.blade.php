@@ -50,6 +50,22 @@
     </div>
     <div class="main">
         <h1>Dashboard Admin</h1>
+        @php
+            $pendingTeachers = \App\Models\User::whereIn('position', ['teacher', 'master', 'doctor'])
+                ->where('is_verified_teacher', false)
+                ->count();
+        @endphp
+
+        @if($pendingTeachers > 0)
+            <div style="background:#fff3cd; color:#856404; border:1px solid #ffeeba; 
+                        padding:10px 15px; border-radius:6px; margin-bottom:20px;">
+                ⚠️ Có <strong>{{ $pendingTeachers }}</strong> người dùng có chức vụ cần được duyệt.
+                <a href="{{ route('admin.pending-teachers') }}" 
+                style="color:#0c5460; font-weight:bold; text-decoration:underline;">
+                    Xem chi tiết
+                </a>
+            </div>
+        @endif
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-number">{{ $userCount }}</div>

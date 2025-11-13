@@ -73,7 +73,8 @@ class AuthController extends Controller
         $user->save();
 
         session(['is_new_user' => true, 'role' => 'student', 'user_id' => $user->id]);
-        return redirect()->route('login')->with('error', 'Đăng ký thành công! Vui lòng đăng nhập.');
+        return redirect()->route('survey.show');
+
     }
 
     

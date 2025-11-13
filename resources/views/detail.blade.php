@@ -55,75 +55,71 @@
 
   <main class="main">
     <h1>Chi tiết tài liệu</h1>
-    @php
-        $fileUrl = asset('storage/'.$file->file_path);
-        $ext = strtolower(pathinfo($file->file_path, PATHINFO_EXTENSION));
-    @endphp
-    @if($ext === 'pdf')
-        {{-- --- PDF PREVIEW --- --}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-        <script>
-            const url = "{{ $fileUrl }}";
-            const pdfContainer = document.querySelector('.main');
-
-            pdfjsLib.getDocument(url).promise.then(pdf => {
-                const pageCount = pdf.numPages;
-                document.querySelector('.page-count').innerText = `${pageCount} trang`;
-
-                // Gửi số trang lên server
-                fetch(`/update-page-count/{{ $file->id }}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ page_count: pageCount })
-                });
-
-                // Render từng trang PDF
-                for (let i = 1; i <= pdf.numPages - 3; i++) {
-                    pdf.getPage(i).then(page => {
-                        const scale = 1.2;
-                        const viewport = page.getViewport({ scale });
-                        const canvas = document.createElement('canvas');
-                        const context = canvas.getContext('2d');
-                        canvas.height = viewport.height;
-                        canvas.width = viewport.width;
-                        pdfContainer.appendChild(canvas);
-                        const renderContext = { canvasContext: context, viewport: viewport };
-                        page.render(renderContext);
-                    });
-                }
-            }).catch(error => {
-                pdfContainer.innerHTML = '<p>Không thể tải PDF.</p>';
-                console.error(error);
-            });
-        </script>
-    @elseif(in_array($ext, ['doc', 'docx', 'ppt', 'pptx']))
-        {{-- --- WORD / POWERPOINT PREVIEW --- --}}
-        <div style="text-align:center;">
-            <iframe 
-                src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($fileUrl) }}"
-                width="100%"
-                height="800px"
-                frameborder="0">
-            </iframe>
-        </div>
-    @elseif(in_array($ext, ['xls', 'xlsx']))
-        {{-- --- EXCEL PREVIEW --- --}}
-        <div style="text-align:center;">
-            <iframe 
-                src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($fileUrl) }}"
-                width="100%"
-                height="800px"
-                frameborder="0">
-            </iframe>
+    @if(isset($content))
+        <div class="word-content">
+            {!! $content !!}
         </div>
     @else
-        {{-- --- KHÔNG HỖ TRỢ --- --}}
-        <p>Không hỗ trợ xem trước loại file này. 
-            <a href="{{ $fileUrl }}" download>Tải xuống</a>
-        </p>
+        @php
+            $fileUrl = asset('storage/'.$file->file_path);
+            $ext = strtolower(pathinfo($file->file_path, PATHINFO_EXTENSION));
+        @endphp
+        @if($ext === 'pdf')
+            {{-- --- PDF PREVIEW --- --}}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+            <script>
+                const url = "{{ $fileUrl }}";
+                const pdfContainer = document.querySelector('.main');
+
+                pdfjsLib.getDocument(url).promise.then(pdf => {
+                    const pageCount = pdf.numPages;
+                    document.querySelector('.page-count').innerText = `${pageCount} trang`;
+
+                    // Gửi số trang lên server
+                    fetch(`/update-page-count/{{ $file->id }}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ page_count: pageCount })
+                    });
+
+                    // Render từng trang PDF
+                    for (let i = 1; i <= pdf.numPages - 3; i++) {
+                        pdf.getPage(i).then(page => {
+                            const scale = 1.2;
+                            const viewport = page.getViewport({ scale });
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+                            pdfContainer.appendChild(canvas);
+                            const renderContext = { canvasContext: context, viewport: viewport };
+                            page.render(renderContext);
+                        });
+                    }
+                }).catch(error => {
+                    pdfContainer.innerHTML = '<p>Không thể tải PDF.</p>';
+                    console.error(error);
+                });
+            </script>
+        @elseif(in_array($ext, ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx']))
+        {{-- --- OFFICE ONLINE VIEWER --- --}}
+        <div style="text-align:center;">
+            <iframe 
+                src="https://view.officeapps.live.com/op/embed.aspx?src={{ urlencode($fileUrl) }}"
+                width="100%"
+                height="800px"
+                frameborder="0">
+            </iframe>
+        </div>
+        @else
+            {{-- --- KHÔNG HỖ TRỢ --- --}}
+            <p>Không hỗ trợ xem trước loại file này. 
+                <a href="{{ $fileUrl }}" download>Tải xuống</a>
+            </p>
+        @endif
     @endif
 
   </main>
